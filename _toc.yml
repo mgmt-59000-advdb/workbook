@@ -3,5 +3,8 @@
 
 format: jb-book
 root: intro
-chapters:
-- file: gcp/GCPCredits.md
+parts:
+  - caption: Google Cloud Platform
+    chapters:
+    - file: gcp/GCPCredits.md
+    - file: bq-dataset-copy.md

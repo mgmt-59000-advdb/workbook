@@ -3,7 +3,8 @@
 
 title: MGMT 59000 Advanced Database Workbook
 author: Rob Elliott (ree@purdue.edu)
-logo: logo.png
+logo: dsb_logo.png
+copyright: "2025"
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
@@ -23,7 +24,7 @@ bibtex_bibfiles:
 repository:
   url: https://github.com/executablebooks/jupyter-book  # Online location of your book
   path_to_book: docs  # Optional path to your book, relative to the repository root
-  branch: master  # Which branch of the repository should be used when creating links (optional)
+  branch: main  # Which branch of the repository should be used when creating links (optional)
 
 # Add GitHub buttons to your book
 # See https://jupyterbook.org/customize/config.html#add-a-link-to-your-repository
