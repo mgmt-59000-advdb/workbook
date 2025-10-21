@@ -163,7 +163,7 @@
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="../intro.html">
-                    Hi! This is the intro.
+                    Welcome to Advanced Databases
                 </a>
             </li>
         </ul>
@@ -434,7 +434,7 @@ WITH ranked_sales AS (
         sale_price,
         ROW_NUMBER() OVER (PARTITION BY state ORDER BY sale_price DESC) AS state_rank
     FROM 
-    `elliott-purdue-development.class_demos.home_sales`
+        `elliott-purdue-development.class_demos.home_sales`
 )
 SELECT 
     state_rank,
@@ -470,15 +470,15 @@ FROM
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>-- UPDATED: Suppose you have a table of daily stock prices and you want to calculate the day-to-day change in stock price.
 SELECT 
-ticker,
-close_date,
-stock_price,
+    ticker,
+    close_date,
+    stock_price,
     LAG(stock_price, 1) OVER (PARTITION BY ticker ORDER BY close_date) AS previous_price,
     stock_price - LAG(stock_price, 1) OVER (PARTITION BY ticker ORDER BY close_date) AS price_change
 FROM 
     `elliott-purdue-development.class_demos.stock_prices`
 ORDER BY 
-ticker, close_date
+    ticker, close_date
 </pre></div>
 </div>
 <p>Because you added the <code class="docutils literal notranslate"><span class="pre">PARTITION</span> <span class="pre">BY</span> <span class="pre">ticker</span></code> statement, the results are now correctly grouped by <code class="docutils literal notranslate"><span class="pre">ticker</span></code> and ordered by <code class="docutils literal notranslate"><span class="pre">close_date</span></code>. Therefore, the results are more meaningful.</p>
