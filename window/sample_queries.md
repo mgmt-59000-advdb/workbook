@@ -51,7 +51,7 @@ WITH ranked_sales AS (
         sale_price,
         ROW_NUMBER() OVER (PARTITION BY state ORDER BY sale_price DESC) AS state_rank
     FROM 
-    `elliott-purdue-development.class_demos.home_sales`
+        `elliott-purdue-development.class_demos.home_sales`
 )
 SELECT 
     state_rank,
@@ -88,15 +88,15 @@ What's missing?
 ```
 -- UPDATED: Suppose you have a table of daily stock prices and you want to calculate the day-to-day change in stock price.
 SELECT 
-ticker,
-close_date,
-stock_price,
+    ticker,
+    close_date,
+    stock_price,
     LAG(stock_price, 1) OVER (PARTITION BY ticker ORDER BY close_date) AS previous_price,
     stock_price - LAG(stock_price, 1) OVER (PARTITION BY ticker ORDER BY close_date) AS price_change
 FROM 
     `elliott-purdue-development.class_demos.stock_prices`
 ORDER BY 
-ticker, close_date
+    ticker, close_date
 ```
 
 Because you added the `PARTITION BY ticker` statement, the results are now correctly grouped by `ticker` and ordered by `close_date`. Therefore, the results are more meaningful.
