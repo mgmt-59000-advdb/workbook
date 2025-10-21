@@ -7,4 +7,8 @@ parts:
   - caption: Google Cloud Platform
     chapters:
     - file: gcp/GCPCredits.md
-    - file: bq-dataset-copy.md
+    - file: gcp/bq_dataset_copy.md
+    - file: gcp/export_csv.md
+  - caption: Window Functions
+    chapters:
+    - file: window/sample_queries.md

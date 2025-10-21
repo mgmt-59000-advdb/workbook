@@ -1,2 +1,2 @@
-# Hi! This is the intro.
-Isn't it cool?
+# Welcome to Advanced Databases
+This site is intended to help provide instructions, demonstrate sample queries, and offer additional support related to MGMT 59000 Advanced Database. Your comments are welcome to help make this a valuable resource for students.

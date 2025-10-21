@@ -1,0 +1,670 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Copying BigQuery Data &#8212; MGMT 59000 Advanced Database Workbook</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'gcp/bq_dataset_copy';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Exporting CSV Results from BigQuery to a Local File" href="export_csv.html" />
+    <link rel="prev" title="Obtaining Google Cloud Credits" href="GCPCredits.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/dsb_logo.png" class="logo__image only-light" alt="MGMT 59000 Advanced Database Workbook - Home"/>
+    <img src="../_static/dsb_logo.png" class="logo__image only-dark pst-js-only" alt="MGMT 59000 Advanced Database Workbook - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Hi! This is the intro.
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Google Cloud Platform</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="GCPCredits.html">Obtaining Google Cloud Credits</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Copying BigQuery Data</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="export_csv.html">Exporting CSV Results from BigQuery to a Local File</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Window Functions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../window/sample_queries.html">Sample Queries for Window Functions</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fgcp/bq_dataset_copy.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/gcp/bq_dataset_copy.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Copying BigQuery Data</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Copying BigQuery Data</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#permissions-needed">🚨 Permissions Needed! 🚨</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#copy-the-datasets">Copy the Datasets</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instructions">Instructions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-access-bigquery-console">Step 1: Access BigQuery Console</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-add-the-instructor-s-project-to-your-console">Step 2: Add the Instructor’s Project to Your Console</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-locate-the-dataset-to-copy">Step 3: Locate the Dataset to Copy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-copy-the-dataset">Step 4: Copy the Dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-configure-copy-settings">Step 5: Configure Copy Settings</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-monitor-the-copy-process">Step 6: Monitor the Copy Process</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-verify-the-copy">Step 7: Verify the Copy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-8-update-permissions-optional">Step 8: Update Permissions (Optional)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting-tips">Troubleshooting Tips</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-notes">Important Notes</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="copying-bigquery-data">
+<h1>Copying BigQuery Data<a class="headerlink" href="#copying-bigquery-data" title="Link to this heading">#</a></h1>
+<p>There are two relational databases that we will use for the first part of this course. They are stored in my instance of BigQuery and you must copy them to your BigQuery project so you can use them.</p>
+<section id="permissions-needed">
+<h2>🚨 Permissions Needed! 🚨<a class="headerlink" href="#permissions-needed" title="Link to this heading">#</a></h2>
+<p>You MUST have permission to copy the data! Ensure you complete the <strong>“Google Cloud Platform Setup”</strong> in Brightspace or you WILL NOT be able to proceed with these instructions.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="copy-the-datasets">
+<h1>Copy the Datasets<a class="headerlink" href="#copy-the-datasets" title="Link to this heading">#</a></h1>
+<p>These instructions are specific to the <code class="docutils literal notranslate"><span class="pre">class_demos</span></code> dataset used in classroom demonstrations. Repeat these instructions for each dataset you will use. Simply substitute the name of the dataset where necessary in the instructions below.</p>
+<section id="instructions">
+<h2>Instructions<a class="headerlink" href="#instructions" title="Link to this heading">#</a></h2>
+<section id="step-1-access-bigquery-console">
+<h3>Step 1: Access BigQuery Console<a class="headerlink" href="#step-1-access-bigquery-console" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Navigate to the Google Cloud Console: <a class="reference external" href="https://console.cloud.google.com">https://console.cloud.google.com</a></p></li>
+<li><p>From the navigation menu (☰) on the left, select <strong>BigQuery</strong> under the “Analytics” section</p></li>
+<li><p>The BigQuery workspace will open</p></li>
+</ol>
+</section>
+<section id="step-2-add-the-instructor-s-project-to-your-console">
+<h3>Step 2: Add the Instructor’s Project to Your Console<a class="headerlink" href="#step-2-add-the-instructor-s-project-to-your-console" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>In the BigQuery Explorer panel (left side), look for the <strong>“+ ADD” button</strong> near the top</p></li>
+<li><p>Click <strong>“Star a project by name”</strong></p></li>
+<li><p>Enter the project ID: <code class="docutils literal notranslate"><span class="pre">elliott-purdue-development</span></code></p></li>
+<li><p>Click <strong>“STAR”</strong></p></li>
+<li><p>The project should now appear in your Explorer panel with a star icon</p></li>
+</ol>
+</section>
+<section id="step-3-locate-the-dataset-to-copy">
+<h3>Step 3: Locate the Dataset to Copy<a class="headerlink" href="#step-3-locate-the-dataset-to-copy" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>In the Explorer panel, expand the <code class="docutils literal notranslate"><span class="pre">elliott-purdue-development</span></code> project by clicking the arrow next to it</p></li>
+<li><p>You should see the <code class="docutils literal notranslate"><span class="pre">class_demos</span></code> dataset listed</p></li>
+<li><p>Click on the <code class="docutils literal notranslate"><span class="pre">class_demos</span></code> dataset to view its details</p></li>
+</ol>
+</section>
+<section id="step-4-copy-the-dataset">
+<h3>Step 4: Copy the Dataset<a class="headerlink" href="#step-4-copy-the-dataset" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>With the <code class="docutils literal notranslate"><span class="pre">class_demos</span></code> dataset selected, click on the <strong>“COPY”</strong> button in the dataset info panel (or click the three dots menu next to the dataset name and select <strong>“Copy dataset”</strong>)</p></li>
+<li><p>In the “Copy dataset” dialog box:</p>
+<ul class="simple">
+<li><p><strong>Destination project</strong>: Select your own GCP project from the dropdown</p></li>
+<li><p><strong>Destination dataset ID</strong>: Enter a name for the dataset in your project (you can keep it as <code class="docutils literal notranslate"><span class="pre">class_demos</span></code> or rename it)</p></li>
+<li><p><strong>Location</strong>: Keep the same location as the source dataset (this should be pre-selected)</p></li>
+<li><p><strong>Copy options</strong>: Check “Copy tables” to include all tables within the dataset</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="step-5-configure-copy-settings">
+<h3>Step 5: Configure Copy Settings<a class="headerlink" href="#step-5-configure-copy-settings" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Review the copy settings:</p>
+<ul class="simple">
+<li><p>Ensure <strong>“Copy tables”</strong> is checked to copy all tables and their data</p></li>
+<li><p>Leave <strong>“Copy views”</strong> checked if you want to include any views</p></li>
+<li><p>Leave <strong>“Copy routines”</strong> checked if there are stored procedures or functions to copy</p></li>
+</ul>
+</li>
+<li><p>Click <strong>“COPY”</strong> to start the copy process</p></li>
+</ol>
+</section>
+<section id="step-6-monitor-the-copy-process">
+<h3>Step 6: Monitor the Copy Process<a class="headerlink" href="#step-6-monitor-the-copy-process" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>A notification will appear indicating the copy job has started</p></li>
+<li><p>You can monitor the progress by:</p>
+<ul class="simple">
+<li><p>Clicking on <strong>“Job History”</strong> in the bottom panel</p></li>
+<li><p>Or navigating to the <strong>“Transfers”</strong> section if it’s a large dataset</p></li>
+</ul>
+</li>
+<li><p>The copy process may take a few moments depending on the dataset size</p></li>
+</ol>
+</section>
+<section id="step-7-verify-the-copy">
+<h3>Step 7: Verify the Copy<a class="headerlink" href="#step-7-verify-the-copy" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>In the Explorer panel, navigate to your own project</p></li>
+<li><p>Expand your project to see the datasets</p></li>
+<li><p>Verify that the <code class="docutils literal notranslate"><span class="pre">class_demos</span></code> dataset (or whatever name you chose) appears</p></li>
+<li><p>Click on the dataset and expand it to confirm all tables have been copied</p></li>
+<li><p>You can click on individual tables and preview the data to ensure the copy was successful</p></li>
+</ol>
+</section>
+<section id="step-8-update-permissions-optional">
+<h3>Step 8: Update Permissions (Optional)<a class="headerlink" href="#step-8-update-permissions-optional" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Click on your newly copied dataset</p></li>
+<li><p>In the dataset info panel, click <strong>“SHARING”</strong> → <strong>“Permissions”</strong></p></li>
+<li><p>Configure any additional access permissions for your team members if needed</p></li>
+</ol>
+</section>
+</section>
+<section id="troubleshooting-tips">
+<h2>Troubleshooting Tips<a class="headerlink" href="#troubleshooting-tips" title="Link to this heading">#</a></h2>
+<p><strong>If you cannot see the instructor’s project:</strong></p>
+<ul class="simple">
+<li><p>Verify you have been granted BigQuery Data Viewer access</p></li>
+<li><p>Check that you’re using the correct project ID: <code class="docutils literal notranslate"><span class="pre">elliott-purdue-development</span></code></p></li>
+<li><p>Try refreshing the BigQuery console</p></li>
+</ul>
+<p><strong>If the copy fails:</strong></p>
+<ul class="simple">
+<li><p>Check that you have sufficient permissions in your destination project</p></li>
+<li><p>Ensure your project has BigQuery API enabled</p></li>
+<li><p>Verify you have enough storage quota in your project</p></li>
+<li><p>Check that the destination dataset name doesn’t already exist</p></li>
+</ul>
+<p><strong>If tables appear empty after copying:</strong></p>
+<ul class="simple">
+<li><p>The copy job might still be in progress - check Job History</p></li>
+<li><p>Refresh the BigQuery console</p></li>
+<li><p>Check the “Details” tab of each table for row count</p></li>
+</ul>
+</section>
+<section id="important-notes">
+<h2>Important Notes<a class="headerlink" href="#important-notes" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The copied dataset will belong to your project and will incur storage costs based on your project’s billing</p></li>
+<li><p>Any queries you run on the copied dataset will be billed to your project</p></li>
+<li><p>The copy creates a snapshot at the time of copying - it won’t sync future updates from the instructor’s dataset</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./gcp"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="GCPCredits.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Obtaining Google Cloud Credits</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="export_csv.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Exporting CSV Results from BigQuery to a Local File</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Copying BigQuery Data</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#permissions-needed">🚨 Permissions Needed! 🚨</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#copy-the-datasets">Copy the Datasets</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instructions">Instructions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-access-bigquery-console">Step 1: Access BigQuery Console</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-add-the-instructor-s-project-to-your-console">Step 2: Add the Instructor’s Project to Your Console</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-locate-the-dataset-to-copy">Step 3: Locate the Dataset to Copy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-copy-the-dataset">Step 4: Copy the Dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-configure-copy-settings">Step 5: Configure Copy Settings</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-monitor-the-copy-process">Step 6: Monitor the Copy Process</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-verify-the-copy">Step 7: Verify the Copy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-8-update-permissions-optional">Step 8: Update Permissions (Optional)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting-tips">Troubleshooting Tips</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-notes">Important Notes</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Rob Elliott (ree@purdue.edu)
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
