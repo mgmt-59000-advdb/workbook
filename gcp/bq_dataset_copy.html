@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -164,7 +164,7 @@
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="../intro.html">
-                    Hi! This is the intro.
+                    Welcome to Advanced Databases
                 </a>
             </li>
         </ul>
@@ -372,13 +372,12 @@
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#copy-the-datasets">Copy the Datasets</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instructions">Instructions</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-access-bigquery-console">Step 1: Access BigQuery Console</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-add-the-instructor-s-project-to-your-console">Step 2: Add the Instructor’s Project to Your Console</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-locate-the-dataset-to-copy">Step 3: Locate the Dataset to Copy</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-copy-the-dataset">Step 4: Copy the Dataset</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-configure-copy-settings">Step 5: Configure Copy Settings</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-monitor-the-copy-process">Step 6: Monitor the Copy Process</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-verify-the-copy">Step 7: Verify the Copy</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-8-update-permissions-optional">Step 8: Update Permissions (Optional)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-go-to-data-transfers">Step 2: Go to Data Transfers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-configure-the-transfer">Step 3: Configure the Transfer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-create-a-dataset">Step 4: Create a Dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-select-your-dataset">Step 5: Select your Dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-run-the-transfer">Step 4: Run the Transfer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-verify-the-copy">Step 5: Verify the Copy</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting-tips">Troubleshooting Tips</a></li>
@@ -413,85 +412,83 @@
 <section id="step-1-access-bigquery-console">
 <h3>Step 1: Access BigQuery Console<a class="headerlink" href="#step-1-access-bigquery-console" title="Link to this heading">#</a></h3>
 <ol class="arabic simple">
-<li><p>Navigate to the Google Cloud Console: <a class="reference external" href="https://console.cloud.google.com">https://console.cloud.google.com</a></p></li>
-<li><p>From the navigation menu (☰) on the left, select <strong>BigQuery</strong> under the “Analytics” section</p></li>
-<li><p>The BigQuery workspace will open</p></li>
+<li><p>Navigate to the BigQuery in the Google Cloud Console: <a class="reference external" href="https://console.cloud.google.com/bigquery">https://console.cloud.google.com/bigquery</a></p></li>
 </ol>
 </section>
-<section id="step-2-add-the-instructor-s-project-to-your-console">
-<h3>Step 2: Add the Instructor’s Project to Your Console<a class="headerlink" href="#step-2-add-the-instructor-s-project-to-your-console" title="Link to this heading">#</a></h3>
+<section id="step-2-go-to-data-transfers">
+<h3>Step 2: Go to Data Transfers<a class="headerlink" href="#step-2-go-to-data-transfers" title="Link to this heading">#</a></h3>
+<p>In the left navigation pane:</p>
 <ol class="arabic simple">
-<li><p>In the BigQuery Explorer panel (left side), look for the <strong>“+ ADD” button</strong> near the top</p></li>
-<li><p>Click <strong>“Star a project by name”</strong></p></li>
-<li><p>Enter the project ID: <code class="docutils literal notranslate"><span class="pre">elliott-purdue-development</span></code></p></li>
-<li><p>Click <strong>“STAR”</strong></p></li>
-<li><p>The project should now appear in your Explorer panel with a star icon</p></li>
+<li><p>Click “Data Transfers” (under the “Pipelines &amp; Integrations” section)</p></li>
 </ol>
+<a class="reference internal image-reference" href="../_images/1-datatransfers.png"><img alt="Screenshot of BigQuery navigation" src="../_images/1-datatransfers.png" style="width: 200px;" /></a>
+<ol class="arabic simple" start="2">
+<li><p>Then click <strong>Create a Transfer</strong></p></li>
+</ol>
+<a class="reference internal image-reference" href="../_images/2-datatransferservice.png"><img alt="Screenshot of Data Transfers screen" src="../_images/2-datatransferservice.png" style="width: 400px;" /></a>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are asked to enable the Bigquery Data Transfer API, you should do so</p>
+</div>
 </section>
-<section id="step-3-locate-the-dataset-to-copy">
-<h3>Step 3: Locate the Dataset to Copy<a class="headerlink" href="#step-3-locate-the-dataset-to-copy" title="Link to this heading">#</a></h3>
+<section id="step-3-configure-the-transfer">
+<h3>Step 3: Configure the Transfer<a class="headerlink" href="#step-3-configure-the-transfer" title="Link to this heading">#</a></h3>
+<p>In the Create transfer dialog, do the following:</p>
 <ol class="arabic simple">
-<li><p>In the Explorer panel, expand the <code class="docutils literal notranslate"><span class="pre">elliott-purdue-development</span></code> project by clicking the arrow next to it</p></li>
-<li><p>You should see the <code class="docutils literal notranslate"><span class="pre">class_demos</span></code> dataset listed</p></li>
-<li><p>Click on the <code class="docutils literal notranslate"><span class="pre">class_demos</span></code> dataset to view its details</p></li>
+<li><p>In the Source dropdown, choose “Dataset Copy”</p></li>
 </ol>
+<a class="reference internal image-reference" href="../_images/3-datasetcopy.png"><img alt="Choose Dataset Copy from the Source dropdown" src="../_images/3-datasetcopy.png" style="width: 400px;" /></a>
+<ol class="arabic simple" start="2">
+<li><p>Enter a value for “Transfer config name”</p></li>
+<li><p>In the Schedule options dropdown, choose “On-demand”</p></li>
+<li><p>In Destination settings, click “Dataset” and then “CREATE NEW DATASET”</p></li>
+</ol>
+<a class="reference internal image-reference" href="../_images/4-createtransfer.png"><img alt="Create transfer settings as specified in text" src="../_images/4-createtransfer.png" style="width: 400px;" /></a>
 </section>
-<section id="step-4-copy-the-dataset">
-<h3>Step 4: Copy the Dataset<a class="headerlink" href="#step-4-copy-the-dataset" title="Link to this heading">#</a></h3>
+<section id="step-4-create-a-dataset">
+<h3>Step 4: Create a Dataset<a class="headerlink" href="#step-4-create-a-dataset" title="Link to this heading">#</a></h3>
+<p>In the Create dataset dialog, do the following:</p>
 <ol class="arabic simple">
-<li><p>With the <code class="docutils literal notranslate"><span class="pre">class_demos</span></code> dataset selected, click on the <strong>“COPY”</strong> button in the dataset info panel (or click the three dots menu next to the dataset name and select <strong>“Copy dataset”</strong>)</p></li>
-<li><p>In the “Copy dataset” dialog box:</p>
-<ul class="simple">
-<li><p><strong>Destination project</strong>: Select your own GCP project from the dropdown</p></li>
-<li><p><strong>Destination dataset ID</strong>: Enter a name for the dataset in your project (you can keep it as <code class="docutils literal notranslate"><span class="pre">class_demos</span></code> or rename it)</p></li>
-<li><p><strong>Location</strong>: Keep the same location as the source dataset (this should be pre-selected)</p></li>
-<li><p><strong>Copy options</strong>: Check “Copy tables” to include all tables within the dataset</p></li>
-</ul>
-</li>
+<li><p>Enter a Dataset ID
+a. Use <code class="docutils literal notranslate"><span class="pre">class_demos</span></code> for the dataset in this example. <em>(You will update this for later data transfers.)</em></p></li>
+<li><p>For Location type, choose “Region”</p></li>
+<li><p>In the Region * dropdown, choose <code class="docutils literal notranslate"><span class="pre">us-central1</span> <span class="pre">(Iowa)</span></code></p></li>
+<li><p>Click “Create dataset”</p></li>
 </ol>
+<a class="reference internal image-reference" href="../_images/5-createdataset.png"><img alt="Create dataset settings as specified in text" src="../_images/5-createdataset.png" style="width: 400px;" /></a>
 </section>
-<section id="step-5-configure-copy-settings">
-<h3>Step 5: Configure Copy Settings<a class="headerlink" href="#step-5-configure-copy-settings" title="Link to this heading">#</a></h3>
+<section id="step-5-select-your-dataset">
+<h3>Step 5: Select your Dataset<a class="headerlink" href="#step-5-select-your-dataset" title="Link to this heading">#</a></h3>
+<p>Back in the Create transfer dialog, do the following:</p>
 <ol class="arabic simple">
-<li><p>Review the copy settings:</p>
-<ul class="simple">
-<li><p>Ensure <strong>“Copy tables”</strong> is checked to copy all tables and their data</p></li>
-<li><p>Leave <strong>“Copy views”</strong> checked if you want to include any views</p></li>
-<li><p>Leave <strong>“Copy routines”</strong> checked if there are stored procedures or functions to copy</p></li>
-</ul>
-</li>
-<li><p>Click <strong>“COPY”</strong> to start the copy process</p></li>
+<li><p>Choose <code class="docutils literal notranslate"><span class="pre">class_demos</span></code> from the Destination settings dropdown</p></li>
 </ol>
+<a class="reference internal image-reference" href="../_images/6-destinationsettings1.png"><img alt="Select `class_demos` from Destination settings dropdown" src="../_images/6-destinationsettings1.png" style="width: 400px;" /></a>
+<ol class="arabic simple" start="2">
+<li><p>For Source dataset enter <code class="docutils literal notranslate"><span class="pre">class_demos</span></code></p></li>
+<li><p>for Source project enter <code class="docutils literal notranslate"><span class="pre">elliott-purdue-development</span></code></p></li>
+<li><p>Click Save</p></li>
+</ol>
+<a class="reference internal image-reference" href="../_images/7-destinationsettings2.png"><img alt="Destination settings as specified in text" src="../_images/7-destinationsettings2.png" style="width: 400px;" /></a>
 </section>
-<section id="step-6-monitor-the-copy-process">
-<h3>Step 6: Monitor the Copy Process<a class="headerlink" href="#step-6-monitor-the-copy-process" title="Link to this heading">#</a></h3>
+<section id="step-4-run-the-transfer">
+<h3>Step 4: Run the Transfer<a class="headerlink" href="#step-4-run-the-transfer" title="Link to this heading">#</a></h3>
+<p>On the Transfer details page, do the following:</p>
 <ol class="arabic simple">
-<li><p>A notification will appear indicating the copy job has started</p></li>
-<li><p>You can monitor the progress by:</p>
-<ul class="simple">
-<li><p>Clicking on <strong>“Job History”</strong> in the bottom panel</p></li>
-<li><p>Or navigating to the <strong>“Transfers”</strong> section if it’s a large dataset</p></li>
-</ul>
-</li>
-<li><p>The copy process may take a few moments depending on the dataset size</p></li>
+<li><p>Click the “Run transfer now” button at the top of the screen</p></li>
+<li><p>In the “Run transfer now” dialog, choose “Run one time transfer”</p></li>
+<li><p>Click OK</p></li>
 </ol>
+<a class="reference internal image-reference" href="../_images/8-transferdetails.png"><img alt="Run transfer now button" src="../_images/8-transferdetails.png" style="width: 400px;" /></a>
 </section>
-<section id="step-7-verify-the-copy">
-<h3>Step 7: Verify the Copy<a class="headerlink" href="#step-7-verify-the-copy" title="Link to this heading">#</a></h3>
+<section id="step-5-verify-the-copy">
+<h3>Step 5: Verify the Copy<a class="headerlink" href="#step-5-verify-the-copy" title="Link to this heading">#</a></h3>
 <ol class="arabic simple">
 <li><p>In the Explorer panel, navigate to your own project</p></li>
 <li><p>Expand your project to see the datasets</p></li>
 <li><p>Verify that the <code class="docutils literal notranslate"><span class="pre">class_demos</span></code> dataset (or whatever name you chose) appears</p></li>
 <li><p>Click on the dataset and expand it to confirm all tables have been copied</p></li>
 <li><p>You can click on individual tables and preview the data to ensure the copy was successful</p></li>
-</ol>
-</section>
-<section id="step-8-update-permissions-optional">
-<h3>Step 8: Update Permissions (Optional)<a class="headerlink" href="#step-8-update-permissions-optional" title="Link to this heading">#</a></h3>
-<ol class="arabic simple">
-<li><p>Click on your newly copied dataset</p></li>
-<li><p>In the dataset info panel, click <strong>“SHARING”</strong> → <strong>“Permissions”</strong></p></li>
-<li><p>Configure any additional access permissions for your team members if needed</p></li>
 </ol>
 </section>
 </section>
@@ -521,7 +518,7 @@
 <h2>Important Notes<a class="headerlink" href="#important-notes" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>The copied dataset will belong to your project and will incur storage costs based on your project’s billing</p></li>
-<li><p>Any queries you run on the copied dataset will be billed to your project</p></li>
+<li><p>Any queries you run on the copied dataset will be billed to your project <em>(Remember! You are using GCP credits and the billing will be free to you! Also, the costs for this project will be minimal.)</em></p></li>
 <li><p>The copy creates a snapshot at the time of copying - it won’t sync future updates from the instructor’s dataset</p></li>
 </ul>
 </section>
@@ -599,13 +596,12 @@
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#copy-the-datasets">Copy the Datasets</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#instructions">Instructions</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-access-bigquery-console">Step 1: Access BigQuery Console</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-add-the-instructor-s-project-to-your-console">Step 2: Add the Instructor’s Project to Your Console</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-locate-the-dataset-to-copy">Step 3: Locate the Dataset to Copy</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-copy-the-dataset">Step 4: Copy the Dataset</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-configure-copy-settings">Step 5: Configure Copy Settings</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-monitor-the-copy-process">Step 6: Monitor the Copy Process</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-verify-the-copy">Step 7: Verify the Copy</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-8-update-permissions-optional">Step 8: Update Permissions (Optional)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-go-to-data-transfers">Step 2: Go to Data Transfers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-configure-the-transfer">Step 3: Configure the Transfer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-create-a-dataset">Step 4: Create a Dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-select-your-dataset">Step 5: Select your Dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-run-the-transfer">Step 4: Run the Transfer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-verify-the-copy">Step 5: Verify the Copy</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting-tips">Troubleshooting Tips</a></li>

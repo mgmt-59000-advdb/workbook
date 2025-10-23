@@ -10,55 +10,98 @@ These instructions are specific to the `class_demos` dataset used in classroom d
 ## Instructions
 
 ### Step 1: Access BigQuery Console
-1. Navigate to the Google Cloud Console: https://console.cloud.google.com
-2. From the navigation menu (☰) on the left, select **BigQuery** under the "Analytics" section
-3. The BigQuery workspace will open
+1. Navigate to the BigQuery in the Google Cloud Console: https://console.cloud.google.com/bigquery
 
-### Step 2: Add the Instructor's Project to Your Console
-1. In the BigQuery Explorer panel (left side), look for the **"+ ADD" button** near the top
-2. Click **"Star a project by name"**
-3. Enter the project ID: `elliott-purdue-development`
-4. Click **"STAR"**
-5. The project should now appear in your Explorer panel with a star icon
+### Step 2: Go to Data Transfers
+In the left navigation pane:
+   1. Click "Data Transfers" (under the "Pipelines & Integrations" section)
 
-### Step 3: Locate the Dataset to Copy
-1. In the Explorer panel, expand the `elliott-purdue-development` project by clicking the arrow next to it
-2. You should see the `class_demos` dataset listed
-3. Click on the `class_demos` dataset to view its details
+   ```{image} _images/1-datatransfers.png
+   :alt: Screenshot of BigQuery navigation
+   :width: 200px
+   ```
 
-### Step 4: Copy the Dataset
-1. With the `class_demos` dataset selected, click on the **"COPY"** button in the dataset info panel (or click the three dots menu next to the dataset name and select **"Copy dataset"**)
-2. In the "Copy dataset" dialog box:
-   - **Destination project**: Select your own GCP project from the dropdown
-   - **Destination dataset ID**: Enter a name for the dataset in your project (you can keep it as `class_demos` or rename it)
-   - **Location**: Keep the same location as the source dataset (this should be pre-selected)
-   - **Copy options**: Check "Copy tables" to include all tables within the dataset
+   2. Then click **Create a Transfer**
 
-### Step 5: Configure Copy Settings
-1. Review the copy settings:
-   - Ensure **"Copy tables"** is checked to copy all tables and their data
-   - Leave **"Copy views"** checked if you want to include any views
-   - Leave **"Copy routines"** checked if there are stored procedures or functions to copy
-2. Click **"COPY"** to start the copy process
+   ```{image} _images/2-datatransferservice.png
+   :alt: Screenshot of Data Transfers screen
+   :width: 400px
+   ```
 
-### Step 6: Monitor the Copy Process
-1. A notification will appear indicating the copy job has started
-2. You can monitor the progress by:
-   - Clicking on **"Job History"** in the bottom panel
-   - Or navigating to the **"Transfers"** section if it's a large dataset
-3. The copy process may take a few moments depending on the dataset size
+```{note}
+If you are asked to enable the Bigquery Data Transfer API, you should do so
+```
 
-### Step 7: Verify the Copy
+### Step 3: Configure the Transfer
+In the Create transfer dialog, do the following:
+   1. In the Source dropdown, choose "Dataset Copy"
+
+   ```{image} _images/3-datasetcopy.png
+   :alt: Choose Dataset Copy from the Source dropdown
+   :width: 400px
+   ```
+
+   2. Enter a value for "Transfer config name"
+   3. In the Schedule options dropdown, choose "On-demand"
+   4. In Destination settings, click "Dataset" and then "CREATE NEW DATASET"
+
+   ```{image} _images/4-createtransfer.png
+   :alt: Create transfer settings as specified in text
+   :width: 400px
+   ```
+
+### Step 4: Create a Dataset
+In the Create dataset dialog, do the following:
+   1. Enter a Dataset ID
+      a. Use `class_demos` for the dataset in this example. *(You will update this for later data transfers.)*
+   2. For Location type, choose "Region"
+   3. In the Region * dropdown, choose `us-central1 (Iowa)`
+   4. Click "Create dataset"
+
+   ```{image} _images/5-createdataset.png
+   :alt: Create dataset settings as specified in text
+   :width: 400px
+   ```
+
+### Step 5: Select your Dataset
+Back in the Create transfer dialog, do the following:
+   1. Choose `class_demos` from the Destination settings dropdown
+
+   ```{image} _images/6-destinationsettings1.png
+   :alt: Select `class_demos` from Destination settings dropdown
+   :width: 400px
+   ```
+
+   2. For Source dataset enter `class_demos`
+   3. for Source project enter `elliott-purdue-development`
+   4. Click Save
+
+   ```{image} _images/7-destinationsettings2.png
+   :alt: Destination settings as specified in text
+   :width: 400px
+   ```
+
+### Step 4: Run the Transfer
+On the Transfer details page, do the following:
+   1. Click the "Run transfer now" button at the top of the screen
+   2. In the "Run transfer now" dialog, choose "Run one time transfer"
+   3. Click OK
+
+   ```{image} _images/8-transferdetails.png
+   :alt: Run transfer now button
+   :width: 400px
+   ```
+
+```{info}
+The transfer is added to the queue but may take a moment or two. Go grab a drink before proceeding.
+```
+
+### Step 5: Verify the Copy
 1. In the Explorer panel, navigate to your own project
 2. Expand your project to see the datasets
 3. Verify that the `class_demos` dataset (or whatever name you chose) appears
 4. Click on the dataset and expand it to confirm all tables have been copied
 5. You can click on individual tables and preview the data to ensure the copy was successful
-
-### Step 8: Update Permissions (Optional)
-1. Click on your newly copied dataset
-2. In the dataset info panel, click **"SHARING"** → **"Permissions"**
-3. Configure any additional access permissions for your team members if needed
 
 ## Troubleshooting Tips
 
@@ -80,5 +123,5 @@ These instructions are specific to the `class_demos` dataset used in classroom d
 
 ## Important Notes
 - The copied dataset will belong to your project and will incur storage costs based on your project's billing
-- Any queries you run on the copied dataset will be billed to your project
+- Any queries you run on the copied dataset will be billed to your project *(Remember! You are using GCP credits and the billing will be free to you! Also, the costs for this project will be minimal.)*
 - The copy creates a snapshot at the time of copying - it won't sync future updates from the instructor's dataset
